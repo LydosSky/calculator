@@ -3,29 +3,24 @@ const displayNumbers = [];
 const displayOperators = [];
 const diplayHist = [];
 
-const display = document.querySelector(".display");
-const plusBtn = document.querySelector(".plus");
-const minusBtn = document.querySelector(".minus");
-const divideBtn = document.querySelector(".divide");
-const multiplyBtn = document.querySelector(".multiply");
-const equalBtn = document.querySelector(".equal");
-const clearBtn = document.querySelector(".clear");
-const numpadBtns = document.querySelectorAll(".numpad-container .num-btn");
-
 function numpadClick(number) {
-  display.value = number;
+  if (number === null) display.value = null;
+  else display.value += number;
 }
 
-for (let i = 0; i < 10; i++) {
-  const currentNumber = i === 9 ? 0 : i + 1;
-  numpadBtns[i].addEventListener("click", () => numpadClick(currentNumber));
-}
+const display = document.querySelector(".display");
+const allbuttons = document.querySelectorAll(" .num-btn");
 
-plusBtn.addEventListener("click", () => numpadClick("+"));
-minusBtn.addEventListener("click", () => numpadClick("-"));
-divideBtn.addEventListener("click", () => numpadClick("/"));
-multiplyBtn.addEventListener("click", () => numpadClick("*"));
-clearBtn.addEventListener("click", () => numpadClick(null));
+for (let button of allbuttons) {
+  button.addEventListener("click", function () {
+    if (
+      button.classList.contains("clear") ||
+      button.classList.contains("equal")
+    )
+      numpadClick(null);
+    else numpadClick(button.textContent);
+  });
+}
 
 function operators(operation) {
   const add = function (a, b) {
