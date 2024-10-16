@@ -1,24 +1,62 @@
 // Buttons and display
-const displayNumbers = [];
-const displayOperators = [];
-const diplayHist = [];
-
-function numpadClick(number) {
-  if (number === null) display.value = null;
-  else display.value += number;
-}
-
 const display = document.querySelector(".display");
 const allbuttons = document.querySelectorAll(" .num-btn");
+let leftNumber,
+  rightNumber,
+  operator,
+  displayValue = "";
+
+function clearCalculation() {
+  leftNumber = "";
+  rightNumber = "";
+  operator = "";
+  displayValue = "";
+}
+
+function operate(op, leftNum, rightNum) {
+  return operators(op)(leftNum, rightNum);
+}
+
+function changeDisplay(value) {
+  display.value += value;
+}
+
+function clearDisplay(value) {
+  clearCalculation();
+  display.value = null;
+}
+
+function numpadClick(number) {
+  switch (number) {
+    case "clear":
+      clearDisplay();
+      return;
+    case "+":
+    case "-":
+    case "/":
+    case "*":
+      operator = number;
+      leftNumber = parseInt(displayValue);
+      displayValue = "";
+      return;
+    case "=":
+      rightNumber = parseInt(displayValue);
+      let result = operate(operator, leftNumber, rightNumber);
+      clearDisplay();
+      clearCalculation();
+      changeDisplay(result);
+      displayValue = result;
+      return;
+    default:
+      changeDisplay(number);
+      displayValue += number;
+      return;
+  }
+}
 
 for (let button of allbuttons) {
   button.addEventListener("click", function () {
-    if (
-      button.classList.contains("clear") ||
-      button.classList.contains("equal")
-    )
-      numpadClick(null);
-    else numpadClick(button.textContent);
+    numpadClick(button.textContent);
   });
 }
 
@@ -39,13 +77,13 @@ function operators(operation) {
     return a / b;
   };
 
-  return operation === add.name
+  return operation === "+"
     ? add
-    : operation === substract.name
+    : operation === "-"
       ? substract
-      : operation === multiply.name
+      : operation === "*"
         ? multiply
-        : operation === divide.name
+        : operation === "/"
           ? divide
           : "OOPS";
 }
