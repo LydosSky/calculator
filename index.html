@@ -5,15 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Calculator</title>
     <link href="style.css" rel="stylesheet" />
+    <script src="./script.js" defer></script>
   </head>
   <body>
     <div class="calculator">
-      <input class="display"></input>
+      <input class="display" readonly="readonly" />
       <div class="operator-container">
         <button class="plus num-btn">+</button>
         <button class="minus num-btn">-</button>
         <button class="divide num-btn">/</button>
         <button class="multiply num-btn">x</button>
+        <button class="clear num-btn">clear</button>
+        <button class="equal num-btn">=</button>
       </div>
       <div class="numpad-container">
         <button class="num-one num-btn">1</button>

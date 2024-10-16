@@ -27,7 +27,6 @@ body {
   border: none;
   font-size: 64px;
   border-radius: 8px;
-  font-weight: 900px;
 }
 
 .num-btn {
@@ -58,9 +57,9 @@ body {
   gap: 3px;
   padding-bottom: 3px;
   margin: 3px 0;
+  flex-wrap: wrap;
 }
 
 .operator-container .num-btn {
   padding: 12px;
-  flex-basis: auto;
 }
