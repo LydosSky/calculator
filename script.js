@@ -1,65 +1,15 @@
 // Buttons and display
 const display = document.querySelector(".display");
 const allbuttons = document.querySelectorAll(" .num-btn");
-let leftNumber,
-  rightNumber,
-  operator,
-  displayValue = "";
 
-function clearCalculation() {
-  leftNumber = "";
-  rightNumber = "";
-  operator = "";
-  displayValue = "";
-}
-
-function operate(op, leftNum, rightNum) {
-  return operators(op)(leftNum, rightNum);
-}
-
-function changeDisplay(value) {
-  display.value += value;
-}
-
-function clearDisplay(value) {
-  clearCalculation();
-  display.value = null;
-}
-
-function numpadClick(number) {
-  switch (number) {
-    case "clear":
-      clearDisplay();
-      return;
-    case "+":
-    case "-":
-    case "/":
-    case "*":
-      operator = number;
-      leftNumber = parseInt(displayValue);
-      displayValue = "";
-      return;
-    case "=":
-      rightNumber = parseInt(displayValue);
-      let result = operate(operator, leftNumber, rightNumber);
-      clearDisplay();
-      clearCalculation();
-      changeDisplay(result);
-      displayValue = result;
-      return;
-    default:
-      changeDisplay(number);
-      displayValue += number;
-      return;
-  }
-}
-
+// Add Event Listeners To Buttons
 for (let button of allbuttons) {
   button.addEventListener("click", function () {
     numpadClick(button.textContent);
   });
 }
 
+// Operator functions all bundled
 function operators(operation) {
   const add = function (a, b) {
     return a + b;
@@ -86,4 +36,65 @@ function operators(operation) {
         : operation === "/"
           ? divide
           : "OOPS";
+}
+////////////////////////////////////////////////////////////////
+
+let leftNumber = "";
+let rightNumber = "";
+let operator = "";
+let displayValue = "";
+
+function clearAll() {
+  leftNumber = "";
+  rightNumber = "";
+  operator = "";
+  displayValue = "";
+  display.value = "";
+}
+
+function operate(op, leftNum, rightNum) {
+  return operators(op)(parseInt(leftNum), parseInt(rightNum));
+}
+
+function changeDisplay(value) {
+  display.value = value;
+}
+
+function calculateAndDisplay() {
+  let result = operate(operator, leftNumber, rightNumber);
+  clearAll();
+  changeDisplay(result);
+  leftNumber = result;
+  displayValue = result;
+}
+
+function numpadClick(number) {
+  switch (number) {
+    case "clear":
+      clearAll();
+      return;
+    case "+":
+    case "-":
+    case "/":
+    case "*":
+      if (operator !== "") {
+        calculateAndDisplay();
+      }
+      leftNumber = displayValue;
+      operator = number;
+      displayValue = "";
+      return;
+    case "=":
+      calculateAndDisplay();
+      return;
+    default:
+      if (operator !== "") {
+        rightNumber += number;
+        displayValue += number;
+      } else {
+        displayValue += number;
+      }
+      changeDisplay(displayValue);
+      return;
+  }
 }

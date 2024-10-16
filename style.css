@@ -23,10 +23,10 @@ body {
   height: 100px;
   background: #fff6f6;
   padding: 16px;
-  text-align: center;
+  text-align: left;
   border: none;
   border-radius: 8px;
-  font-size: 48px;
+  font-size: 72px;
 }
 
 .num-btn {
