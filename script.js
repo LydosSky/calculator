@@ -53,7 +53,10 @@ function clearAll() {
 }
 
 function operate(op, leftNum, rightNum) {
-  return operators(op)(parseInt(leftNum), parseInt(rightNum));
+  leftNum = parseInt(leftNum);
+  rightNum = parseInt(rightNum);
+  if (rightNum === 0 && op === "/") return "Err";
+  return operators(op)(leftNum, rightNum);
 }
 
 function changeDisplay(value) {
@@ -64,6 +67,7 @@ function calculateAndDisplay() {
   let result = operate(operator, leftNumber, rightNumber);
   clearAll();
   changeDisplay(result);
+  if (result === "Err") return;
   leftNumber = result;
   displayValue = result;
 }
@@ -77,10 +81,10 @@ function numpadClick(number) {
     case "-":
     case "/":
     case "*":
-      if (operator !== "") {
+      if (operator !== "" && rightNumber !== "") {
         calculateAndDisplay();
       }
-      leftNumber = displayValue;
+      if (operator === "" && leftNumber === "") leftNumber = displayValue;
       operator = number;
       displayValue = "";
       return;
